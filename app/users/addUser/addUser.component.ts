@@ -18,16 +18,20 @@ import { UsersService } from '../users.service';
 
 export class AddUserComponent implements CanDeactivate {
     form: ControlGroup;
-    constructor(fb: FormBuilder, private _usersService: UsersService, private _router: Router, private _toastr: ToastsManager){
+    constructor(fb: FormBuilder,
+                private _usersService: UsersService,
+                private _router: Router, 
+                private _toastr: ToastsManager){
         this.form = fb.group({
             name: ['',Validators.compose([ Validators.required ])],
             email: ['',Validators.compose([ Validators.required, EmailValidator.invalidEmailCheck ])],
-            phone: ['',Validators.compose([ Validators.required ])],
-            street: ['',Validators.compose([ Validators.required ])],
-            suite: ['',Validators.compose([ Validators.required ])],
-            city: ['',Validators.compose([ Validators.required ])],
-            zipCode: ['',Validators.compose([ Validators.required ])]
-            
+            phone: [],
+            address: fb.group({
+                street: [],
+                suite: [],
+                city: [],
+                zipCode: []
+            })
         })
     }
     
