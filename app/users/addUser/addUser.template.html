@@ -1,0 +1,39 @@
+<div class="col-md-6 col-lg-6 well">
+    <form [ngFormModel]="form" (ngSubmit)="onSubmit()">
+        <fieldset>
+            <legend>User</legend>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input ngControl="name" #name="ngForm" class="form-control" type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input ngControl="email" #email="ngForm" class="form-control" type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input ngControl="phone" #phone="ngForm" class="form-control" type="number" id="phone" required>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Address</legend>
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input ngControl="street" #street="ngForm" type="text" class="form-control" id="street" required>
+            </div>
+            <div class="form-group">
+                <label for="suite">Suite</label>
+                <input ngControl="suite" #suite="ngForm" type="text" class="form-control" id="suite" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input ngControl="city" #city="ngForm" type="text" class="form-control" id="city" required>
+            </div>
+            <div class="form-group">
+                <label for="zipCode">Zip Code</label>
+                <input ngControl="zipCode" #zipCode="ngForm" type="number" class="form-control" id="zipCode" required>
+            </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Save</button>
+    </form>
+</div>

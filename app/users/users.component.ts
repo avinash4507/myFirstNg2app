@@ -1,12 +1,14 @@
 import { Component, OnInit } from 'angular2/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { ROUTER_DIRECTIVES } from 'angular2/router';
 
 import { UsersService } from './users.service';
+import { AddUserComponent } from './addUser/addUser.component';
 
 @Component({
     template: `
         <h1>Users</h1>
-        <p><a ><button class="btn btn-primary">Add User</button></a></p>
+        <p><a [routerLink]="['AddUser']"><button class="btn btn-primary">Add User</button></a></p>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <tr>
@@ -24,6 +26,7 @@ import { UsersService } from './users.service';
             </table>
         </div>
     `,
+    directives: [ ROUTER_DIRECTIVES ],
     providers: [ UsersService ]
 })
 
