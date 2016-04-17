@@ -7,7 +7,7 @@ import { provide } from 'angular2/core';
 import {ToastOptions} from "ng2-toastr/ng2-toastr";
     
 let options = {
-    autoDismiss: false,
+    autoDismiss: true,
     positionClass: 'toast-bottom-right',
 };
 
