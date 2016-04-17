@@ -17,7 +17,22 @@ export class UsersService {
     }
     
     saveUser(user) {
-        return this._http.post(this._url, user)
+        return this._http.post(this._url, JSON.stringify(user))
             .map( result => result.json());
+    }
+    
+    getUsersById(id) {
+        return this._http.get(this._url + '/' + id)
+            .map( result => result.json() );
+    }
+    
+    updateUser(user) {
+        return this._http.put(this._url + '/' + user.id, JSON.stringify(user))
+            .map( result => result.json());
+    }
+    
+    deleteUser(id) {
+        return this._http.delete(this._url + '/' + id)
+            .map( res => res.json() );
     }
 }
