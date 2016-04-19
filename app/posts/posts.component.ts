@@ -2,30 +2,10 @@ import { Component, OnInit } from 'angular2/core';
 import { PostsService } from './posts.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { CommentsComponent } from './comments/comments.component';
+import { UsersService } from '../users/users.service';
 
 @Component({
-    template: `
-        <h1>Posts</h1>
-        <div class="row">
-            <spinner [visible]="isLoading"></spinner>
-            <ul class="list-group col-md-6 col-sm-6 posts">
-                <li class="list-group-item" *ngFor="#post of posts" [ngClass]="{active: currentPost==post}" (click)="select(post)">{{post.title}}</li>
-            </ul>
-            <div *ngIf="currentPost" class="col-md-6 col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{currentPost.title}}</h3>
-                    </div>
-                    <div class="panel-body">
-                        {{currentPost.body}}
-                        <hr/>
-                        <spinner [visible]="commentIsLoading"></spinner>
-                        <comments *ngFor="#comment of currentPost.comments" [commentId]="comment.id" [commentHeading]="comment.name" [commentBody]="comment.body"></comments>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
+    templateUrl: 'app/posts/posts.template.html',
     styles: [`
         .posts li {
             cursor: pointer
@@ -42,39 +22,53 @@ import { CommentsComponent } from './comments/comments.component';
         }
     `],
     directives: [ SpinnerComponent, CommentsComponent ],
-    providers: [ PostsService ]
+    providers: [ PostsService, UsersService ]
 })
 
 export class PostsComponent implements OnInit{
     posts = [];
-    isLoading: boolean = true;
+    users = [];
+    postsLoading: boolean;
     currentPost;
-    commentIsLoading: boolean;
+    commentsLoading: boolean;
     
-    constructor(private _postsService: PostsService){
+    constructor(private _postsService: PostsService, private _usersService: UsersService){
         
     }
     
     ngOnInit() {
-        this._postsService.getPosts()
+        this.getPosts();
+        this.getUsers();
+    }
+    
+    getUsers() {
+        this._usersService.getUsers()
             .subscribe(
-                allPosts => this.posts = allPosts,
-                error => console.error(error),
-                () => {
-                    console.log('completed'),
-                    this.isLoading = false   
-                }
+                users => this.users = users,
+                errors =>console.error(errors),
+                () => console.log('completed')
             )
     }
     
     select(post) {
         this.currentPost = post;
-        this.commentIsLoading = true;
+        this.commentsLoading = true;
         this._postsService.getComments(post.id)
             .subscribe( 
                 comments => this.currentPost.comments = comments,
                 error =>console.error(error),
-                () => this.commentIsLoading = false
+                () => this.commentsLoading = false
             );
     }    
+    
+    getPosts(filter?: number) {
+        this.currentPost = null;
+        this.postsLoading = true;
+        this._postsService.getPosts(filter)
+            .subscribe( 
+                posts => this.posts = posts,
+                error =>console.error(error),
+                () => this.postsLoading = false
+            )
+    }
 }

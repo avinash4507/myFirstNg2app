@@ -1,0 +1,26 @@
+<h1>Posts</h1>
+<div class="row">
+    <spinner [visible]="postsLoading"></spinner>
+    <div class="col-md-6 col-sm-6">
+        <select #u (change)="getPosts(u.value)" class="form-control">
+            <option value="">Select User</option>
+            <option *ngFor="#user of users" value="{{user.id}}">{{user.name}}</option>
+        </select>
+        <ul class="list-group posts">
+            <li class="list-group-item" *ngFor="#post of posts" [ngClass]="{active: currentPost==post}" (click)="select(post)">{{post.title}}</li>
+        </ul>
+    </div>
+    <div *ngIf="currentPost" class="col-md-6 col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{currentPost.title}}</h3>
+            </div>
+            <div class="panel-body">
+                {{currentPost.body}}
+                <hr/>
+                <spinner [visible]="commentsLoading"></spinner>
+                <comments *ngFor="#comment of currentPost.comments" [commentId]="comment.id" [commentHeading]="comment.name" [commentBody]="comment.body"></comments>
+            </div>
+        </div>
+    </div>
+</div>

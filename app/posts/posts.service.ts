@@ -10,14 +10,18 @@ export class PostsService {
     }
     
     private _url = 'http://jsonplaceholder.typicode.com/posts'
-    
-    getPosts() {
-        return this._http.get(this._url)
+   
+    getComments(id) {
+        return this._http.get(this._url + '/' + id + '/comments')
             .map( res => res.json() );
     }
     
-    getComments(id) {
-        return this._http.get(this._url + '/' + id + '/comments')
+    getPosts(userId?: number) {
+        let url = this._url;
+        if(userId)
+            url += '?userId=' + userId;
+            
+        return this._http.get(url)
             .map( res => res.json() );
     }
 }
